@@ -64,6 +64,12 @@ class DQStewardPipeline:
         print("\n[Layer 1: Ingestion & Bronze Landing]")
         ingested_dfs = []
 
+        # Auto-generate synthetic data if not present on disk (e.g. fresh cloud deployment)
+        if not os.path.exists(crm_csv) or not os.path.exists(erp_csv):
+            print("  [*] Raw input data not found on disk. Generating synthetic data on the fly...")
+            from data.generate_synthetic import generate_dataset
+            generate_dataset(total_records=sample_size or 5000, output_dir=os.path.dirname(crm_csv) or "data/raw")
+
         if os.path.exists(crm_csv):
             res_crm = self.ingestion.ingest_csv(crm_csv, "CRM_Salesforce")
             print(f"  [+] Ingested CRM Salesforce: {res_crm['rows_ingested']:,} rows (SHA-256: {res_crm['file_hash'][:10]}...)")
@@ -80,7 +86,7 @@ class DQStewardPipeline:
             ingested_dfs.append(res_web["df"])
 
         if not ingested_dfs:
-            raise FileNotFoundError("No raw input files found. Please generate synthetic data first.")
+            raise FileNotFoundError("Unable to locate or generate raw input data.")
 
         # Combine all sources into unified master dataset
         df_master = pd.concat(ingested_dfs, ignore_index=True)
