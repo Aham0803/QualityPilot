@@ -98,6 +98,18 @@ class DQStewardPipeline:
         run_id = f"RUN-MASTER-{int(time.time())}"
         print(f"  [+] Unified Bronze dataset loaded: {total_records:,} total records across sources")
 
+        # Record Master Run in pipeline_runs
+        master_run = PipelineRun(
+            run_id=run_id,
+            source="Master_Unified_Feed",
+            started_at=datetime.now(timezone.utc),
+            status="COMPLETED",
+            rows_in=total_records,
+            rows_out=total_records
+        )
+        self.session.add(master_run)
+        self.session.commit()
+
         # ----------------------------------------------------
         # 2. SILVER PROFILING & DATA QUALITY RULES
         # ----------------------------------------------------

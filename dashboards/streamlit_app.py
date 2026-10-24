@@ -96,10 +96,11 @@ if page == "📊 Data Quality Scorecard":
     st.markdown('<div class="main-header">Data Quality & Profiling Scorecard</div>', unsafe_allow_html=True)
     st.caption("Executive overview of master data quality across completeness, validity, consistency, uniqueness & timeliness.")
 
-    # Fetch recent run
-    recent_runs = session.query(PipelineRun).order_by(PipelineRun.started_at.desc()).limit(10).all()
-    if not recent_runs:
-        st.warning("⚠️ No pipeline runs found in database.")
+    # Fetch all run IDs that have evaluated DQ results
+    dq_run_ids = [r[0] for r in session.query(DQResult.run_id).distinct().all()]
+
+    if not dq_run_ids:
+        st.warning("⚠️ No evaluated Data Quality runs found in database.")
         if st.button("🚀 Run Initial Ingestion & Quality Scoring Pipeline Now", type="primary"):
             with st.spinner("Executing DQ-Steward AI Master Pipeline..."):
                 from src.pipeline import DQStewardPipeline
@@ -109,8 +110,17 @@ if page == "📊 Data Quality Scorecard":
                 st.rerun()
         st.stop()
 
-    run_options = {r.run_id: f"{r.run_id} ({r.source} - {r.started_at.strftime('%Y-%m-%d %H:%M')})" for r in recent_runs}
-    selected_run_id = st.selectbox("Select Pipeline Run Batch", options=list(run_options.keys()), format_func=lambda x: run_options[x])
+    run_options = {rid: f"Batch: {rid}" for rid in dq_run_ids}
+    run_records = session.query(PipelineRun).filter(PipelineRun.run_id.in_(dq_run_ids)).all()
+    for r in run_records:
+        date_str = r.started_at.strftime('%Y-%m-%d %H:%M') if r.started_at else ''
+        run_options[r.run_id] = f"{r.run_id} ({r.source} - {date_str})"
+
+    selected_run_id = st.selectbox(
+        "Select Pipeline Run Batch",
+        options=list(run_options.keys()),
+        format_func=lambda x: run_options[x]
+    )
 
     # Fetch DQ results for this run
     results = session.query(DQResult, DQRule).join(DQRule, DQResult.rule_id == DQRule.rule_id).filter(DQResult.run_id == selected_run_id).all()
