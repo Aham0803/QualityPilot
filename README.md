@@ -6,7 +6,7 @@
 [![Python Version](https://img.shields.io/badge/Python-3.11%20%7C%203.14-blue.svg)]()
 [![Architecture](https://img.shields.io/badge/Architecture-Medallion%20(Bronze%2FSilver%2FGold)-orange.svg)]()
 
-> **Production-grade Data Quality, MDM Entity Resolution, and GenAI Stewardship Automation Platform**, built for AI & Automation SME, Senior Data Engineering, and Master Data Management (MDM / DA&A) roles.
+> **A portfolio demonstration project implementing AI-assisted Master Data Management (MDM), configurable data quality rules, fuzzy entity resolution, and incident runbooks on synthetic master data.** Built to showcase modern Data Engineering, MDM, and GenAI stewardship practices.
 
 🌐 **Live Streamlit Cloud Deployment:** [https://qualitypilot-qfyq7ddu8zmgux2nunnqtq.streamlit.app/](https://qualitypilot-qfyq7ddu8zmgux2nunnqtq.streamlit.app/)
 
@@ -20,13 +20,13 @@
 
 ---
 
-## 📌 Executive Summary
+## 📌 Project Overview
 
-Modern enterprise data lakes suffer from fragmented data sources, duplicate records, non-standard text attributes, and silent schema/quality regressions. Traditional MDM solutions (e.g., Informatica MDM, CLAIRE, Talend) are often rigid and manual.
+Modern enterprise data lakes suffer from fragmented data sources, duplicate records, non-standard text attributes, and silent quality regressions. Traditional MDM solutions (e.g., Informatica MDM, CLAIRE, Talend) are often costly and opaque.
 
-**QualityPilot** implements a modern, intelligent **Medallion Architecture (Bronze -> Silver -> Gold)** that:
-1. **Ingests 50,000+ messy records** from CRM (Salesforce), ERP (SAP), and REST APIs with cryptographic SHA-256 integrity verification.
-2. **Evaluates 16+ config-driven rules** across 5 core dimensions: **Completeness, Validity, Consistency, Uniqueness, and Timeliness**.
+**QualityPilot** demonstrates a clean, modular **Medallion Architecture (Bronze -> Silver -> Gold)** that:
+1. **Ingests 50,000 synthetic records** from CRM (Salesforce), ERP (SAP), and REST APIs with cryptographic SHA-256 integrity verification.
+2. **Evaluates 16 config-driven rules** across 5 core dimensions: **Completeness, Validity, Consistency, Uniqueness, and Timeliness**.
 3. **Executes Fuzzy Match & Merge** using RapidFuzz, phonetic blocking, and multi-field weighted scoring to detect duplicate entities with **100.0% precision** against ground truth.
 4. **Powers an AI Stewardship Layer (GenAI Core)** using Azure OpenAI / OpenAI with Pydantic guardrails, deduplicated caching, and confidence-based routing (`>=0.90` auto-applied with immutable audit trails, `<0.90` routed to human triage).
 5. **Provides Intelligent Observability & Anomaly Alerting** with rolling 14-day Z-score outlier detection (`Z > 3.0`), Teams/Slack notifications with suppression windows, and **RAG-based incident remediation**.
@@ -89,17 +89,17 @@ flowchart TD
 
 ---
 
-## 🎯 Measurable Headline Results
+## 🎯 Measurable Results & Benchmark Notes
 
-| Metric | Target / Benchmark | Measured Outcome |
-| :--- | :--- | :--- |
-| **Ingested Records Volume** | 50,000+ multi-source records | **50,000 records** (CRM: 21,770, ERP: 19,413, Web: 8,817) |
-| **Data Quality Score Improvement** | Measurable Before vs After | **64.2% (Raw Initial) ➔ 94.8% (Post-AI Cleaned)** |
-| **Fuzzy Duplicate Precision** | > 90% against ground truth | **100.0% Precision** (Ground truth Recall: 95.95%, F1: 97.93%) |
-| **AI Location Standardization Accuracy**| > 85% agreement on fixed golden set | **96.9% Agreement** (31/32 on benchmark suite) |
-| **AI LLM Cost Optimization** | Zero redundant API calls | **88.4% Cache Hit Ratio** via unique value deduplication |
-| **Test Suite Code Coverage** | > 80% with automated CI | **89% Code Coverage** across 21 test suites |
-| **Automated Incident MTTR** | Reduced manual resolution effort | **1.2s auto-remediation** for low-risk runbook incidents |
+| Metric | Target / Benchmark | Measured Outcome | Measurement Context & Notes |
+| :--- | :--- | :--- | :--- |
+| **Ingested Records Volume** | 50,000+ multi-source records | **50,000 records** | Generated via `data/generate_synthetic.py` (CRM: 21,770, ERP: 19,413, Web: 8,817) with injected typos, format inconsistencies, and nulls. |
+| **Data Quality Score** | Measurable Before vs After | **64.2% ➔ 94.8%** | Evaluated on 16 YAML rules across Completeness, Validity, Consistency, Uniqueness, Timeliness before vs after AI canonical standardization. |
+| **Fuzzy Duplicate Precision** | > 90% against ground truth | **100.0% Precision** | Evaluated against hidden `true_entity_id` ground truth on candidate duplicate pairs (Recall: 95.95%, F1: 97.93%). |
+| **AI Standardization Accuracy**| > 85% agreement on golden set | **96.9% Agreement** | Evaluated on fixed 32-record labelled benchmark set (`tests/ai_eval/golden_200_locations.json`) with strict Pydantic output validation. |
+| **AI LLM Cost Optimization** | Zero redundant API calls | **88.4% Cache Hit Ratio** | Evaluated through pre-API unique string deduplication and persistent SQLite response caching. |
+| **Test Suite Code Coverage** | > 80% with automated CI | **89% Code Coverage** | Measured using `pytest-cov` across 21 test suites in `tests/` covering unit, data reconciliation, AI regression, and UI smoke tests. |
+| **Automated Incident MTTR** | Reduced manual resolution effort | **1.2s auto-remediation** | Measured on automated execution of low-risk deterministic runbooks (e.g., extractor retry, partition re-run). |
 
 ---
 
