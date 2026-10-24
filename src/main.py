@@ -1,5 +1,5 @@
 """
-Command Line Interface for DQ-Steward AI.
+Command Line Interface for QualityPilot.
 Usage:
   python -m src.main run-pipeline [--sample 5000]
   python -m src.main start-dashboard
@@ -12,7 +12,7 @@ import subprocess
 from src.pipeline import DQStewardPipeline
 
 def main():
-    parser = argparse.ArgumentParser(description="DQ-Steward AI Master CLI")
+    parser = argparse.ArgumentParser(description="QualityPilot Master CLI")
     subparsers = parser.add_subparsers(dest="command", help="Sub-commands")
 
     # Run Pipeline

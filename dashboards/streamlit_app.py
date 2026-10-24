@@ -1,5 +1,5 @@
 """
-DQ-Steward AI - Operational Analytics & Stewardship Dashboard.
+QualityPilot - Operational Analytics & Stewardship Dashboard.
 Four dedicated pages:
   1. Data Quality Scorecard (MDM / DA&A Stakeholders)
   2. Steward Workbench (Data Stewards)
@@ -36,7 +36,7 @@ from src.db.models import (
 
 # Page configuration
 st.set_page_config(
-    page_title="DQ-Steward AI Platform",
+    page_title="QualityPilot Platform",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -72,7 +72,7 @@ init_db()
 session = get_session()
 
 # Sidebar Navigation
-st.sidebar.markdown("# 🛡️ DQ-Steward AI")
+st.sidebar.markdown("# 🛡️ QualityPilot")
 st.sidebar.markdown("*AI-Assisted MDM & Stewardship Automation*")
 st.sidebar.markdown("---")
 
@@ -102,7 +102,7 @@ if page == "📊 Data Quality Scorecard":
     if not dq_run_ids:
         st.warning("⚠️ No evaluated Data Quality runs found in database.")
         if st.button("🚀 Run Initial Ingestion & Quality Scoring Pipeline Now", type="primary"):
-            with st.spinner("Executing DQ-Steward AI Master Pipeline..."):
+            with st.spinner("Executing QualityPilot Master Pipeline..."):
                 from src.pipeline import DQStewardPipeline
                 pipe = DQStewardPipeline()
                 pipe.run_full_pipeline(sample_size=3000)

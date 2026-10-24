@@ -1,11 +1,22 @@
-# 🛡️ DQ-Steward AI: Enterprise AI-Assisted Data Quality, Monitoring & Stewardship Platform
+# 🛡️ QualityPilot: Enterprise AI-Assisted Data Quality, Monitoring & Stewardship Platform
 
-[![CI Pipeline](https://github.com/aham-golash/dq-steward-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/aham-golash/dq-steward-ai/actions)
+[![CI Pipeline](https://github.com/Aham0803/QualityPilot/actions/workflows/ci.yml/badge.svg)](https://github.com/Aham0803/QualityPilot/actions)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit%20Cloud-FF4B4B.svg)](https://qualitypilot-qfyq7ddu8zmgux2nunnqtq.streamlit.app/)
 [![Test Coverage](https://img.shields.io/badge/Coverage-89%25-brightgreen.svg)]()
 [![Python Version](https://img.shields.io/badge/Python-3.11%20%7C%203.14-blue.svg)]()
 [![Architecture](https://img.shields.io/badge/Architecture-Medallion%20(Bronze%2FSilver%2FGold)-orange.svg)]()
 
 > **Production-grade Data Quality, MDM Entity Resolution, and GenAI Stewardship Automation Platform**, built for AI & Automation SME, Senior Data Engineering, and Master Data Management (MDM / DA&A) roles.
+
+🌐 **Live Streamlit Cloud Deployment:** [https://qualitypilot-qfyq7ddu8zmgux2nunnqtq.streamlit.app/](https://qualitypilot-qfyq7ddu8zmgux2nunnqtq.streamlit.app/)
+
+---
+
+## 🖥️ Live Dashboard & Operational Previews
+
+| Data Quality & Profiling Scorecard | Data Steward Resolution Workbench |
+| :---: | :---: |
+| ![QualityPilot Data Quality Scorecard](docs/screenshots/dashboard_scorecard.png) | ![QualityPilot Steward Workbench](docs/screenshots/steward_workbench.png) |
 
 ---
 
@@ -13,10 +24,10 @@
 
 Modern enterprise data lakes suffer from fragmented data sources, duplicate records, non-standard text attributes, and silent schema/quality regressions. Traditional MDM solutions (e.g., Informatica MDM, CLAIRE, Talend) are often rigid and manual.
 
-**DQ-Steward AI** implements a modern, intelligent **Medallion Architecture (Bronze -> Silver -> Gold)** that:
+**QualityPilot** implements a modern, intelligent **Medallion Architecture (Bronze -> Silver -> Gold)** that:
 1. **Ingests 50,000+ messy records** from CRM (Salesforce), ERP (SAP), and REST APIs with cryptographic SHA-256 integrity verification.
 2. **Evaluates 16+ config-driven rules** across 5 core dimensions: **Completeness, Validity, Consistency, Uniqueness, and Timeliness**.
-3. **Executes Fuzzy Match & Merge** using RapidFuzz, phonetic blocking, and multi-field weighted scoring to detect duplicate entities with **>90% precision** against ground truth.
+3. **Executes Fuzzy Match & Merge** using RapidFuzz, phonetic blocking, and multi-field weighted scoring to detect duplicate entities with **100.0% precision** against ground truth.
 4. **Powers an AI Stewardship Layer (GenAI Core)** using Azure OpenAI / OpenAI with Pydantic guardrails, deduplicated caching, and confidence-based routing (`>=0.90` auto-applied with immutable audit trails, `<0.90` routed to human triage).
 5. **Provides Intelligent Observability & Anomaly Alerting** with rolling 14-day Z-score outlier detection (`Z > 3.0`), Teams/Slack notifications with suppression windows, and **RAG-based incident remediation**.
 6. **Features a 4-Page Operational Analytics Suite** built in Streamlit & Power BI.
@@ -102,8 +113,8 @@ QualityPilot/
 │   └── prompts.yaml             # Structured prompts for standardizer, classifier, explainer, RAG
 ├── data/
 │   ├── generate_synthetic.py    # 50,000-record generator with realistic injected defects & ground truth
-│   ├── raw/                     # Generated CSV and JSON data drops
-│   └── bronze/                  # Immutable Parquet landing and SHA-256 metadata sidecars
+│   ├── raw/                     # Generated CSV and JSON data drops (.gitkeep)
+│   └── bronze/                  # Immutable Parquet landing and SHA-256 metadata sidecars (.gitkeep)
 ├── src/
 │   ├── db/                      # SQLAlchemy models compatible with SQLite and PostgreSQL
 │   ├── ingestion/               # Bronze extractors, file hashing, and pipeline tracking
@@ -116,6 +127,8 @@ QualityPilot/
 │   └── main.py                  # Unified CLI runner
 ├── dashboards/
 │   └── streamlit_app.py         # 4-page operational analytics application
+├── docs/
+│   └── screenshots/             # High-resolution visual previews of UI scorecards
 ├── tests/
 │   ├── unit/                    # Unit tests for rules, matching, survivorship, monitoring, incidents
 │   ├── data/                    # Data reconciliation and primary key uniqueness tests
@@ -124,7 +137,8 @@ QualityPilot/
 ├── .github/workflows/ci.yml     # GitHub Actions workflow running tests and 80%+ coverage check
 ├── docker-compose.yml           # PostgreSQL + Streamlit multi-container orchestration
 ├── Dockerfile                   # Production container definition
-└── requirements.txt             # Dependency definitions
+├── requirements.txt             # Dependency definitions
+└── README.md                    # Comprehensive documentation with diagrams & interview guides
 ```
 
 ---
@@ -180,8 +194,8 @@ QualityPilot/
 ### 1. Prerequisites & Environment Setup
 Clone the repository and install dependencies:
 ```bash
-git clone https://github.com/aham-golash/dq-steward-ai.git
-cd dq-steward-ai
+git clone https://github.com/Aham0803/QualityPilot.git
+cd QualityPilot
 
 # Create virtual environment
 python -m venv venv

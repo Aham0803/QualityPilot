@@ -141,7 +141,7 @@ class DataProfiler:
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DQ-Steward AI - Profiling Report [{run_id}]</title>
+    <title>QualityPilot - Profiling Report [{run_id}]</title>
     <style>
         body {{
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -227,7 +227,7 @@ class DataProfiler:
     <div class="container">
         <div class="header">
             <div class="title-section">
-                <h1>DQ-Steward AI &mdash; Data Quality Scorecard</h1>
+                <h1>QualityPilot &mdash; Data Quality Scorecard</h1>
                 <div style="color:#94a3b8;font-size:0.95rem;">
                     Source: <strong style="color:#f8fafc;">{source}</strong> | 
                     Run ID: <code>{run_id}</code> | 

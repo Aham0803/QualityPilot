@@ -119,7 +119,7 @@ class AlertManager:
     def _dispatch_notification(self, incident: Incident, source: str, run_id: str):
         """Send formatted webhook to Slack / Microsoft Teams or console."""
         payload = {
-            "title": f"[ALERT] DQ-Steward Alert: {incident.type} [{incident.severity}]",
+            "title": f"[ALERT] QualityPilot Alert: {incident.type} [{incident.severity}]",
             "incident_id": incident.incident_id,
             "source": source,
             "run_id": run_id,

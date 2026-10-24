@@ -1,5 +1,5 @@
 """
-DQ-Steward AI Master Pipeline Orchestrator.
+QualityPilot Master Pipeline Orchestrator.
 Orchestrates Bronze Ingestion, Silver Profiling & Rules, Gold Match & Merge,
 AI Stewardship Standardization, Intelligent Monitoring, and Incident Remediation.
 """
@@ -55,7 +55,7 @@ class DQStewardPipeline:
         """
         pipeline_start = time.time()
         print("=========================================================")
-        print("[*] Starting DQ-Steward AI Master Pipeline Execution")
+        print("[*] Starting QualityPilot Master Pipeline Execution")
         print("=========================================================")
 
         # ----------------------------------------------------
@@ -211,7 +211,7 @@ class DQStewardPipeline:
 
         pipeline_duration = round(time.time() - pipeline_start, 2)
         print("\n=========================================================")
-        print(f"[OK] DQ-Steward AI Pipeline Completed in {pipeline_duration}s")
+        print(f"[OK] QualityPilot Master Pipeline Completed in {pipeline_duration}s")
         print("=========================================================")
 
         return {

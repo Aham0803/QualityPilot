@@ -1,5 +1,5 @@
 """
-Database Models for DQ-Steward AI.
+Database Models for QualityPilot.
 Compatible with SQLite and PostgreSQL via SQLAlchemy.
 """
 

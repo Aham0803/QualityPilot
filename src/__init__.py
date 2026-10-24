@@ -1,2 +1,2 @@
-"""DQ-Steward AI Source Package"""
+"""QualityPilot Source Package"""
 __version__ = "1.0.0"
