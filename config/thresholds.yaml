@@ -1,0 +1,52 @@
+# Matching, Merging, AI and Alerting Thresholds Configuration
+
+matching:
+  blocking:
+    # First 3 letters of cleaned name + first 3 digits of postal code
+    name_prefix_len: 3
+    postal_prefix_len: 3
+    fallback_exact_fields: ["email", "phone"]
+
+  weights:
+    name_similarity: 0.40       # RapidFuzz token_sort_ratio / jaro_winkler
+    address_similarity: 0.25    # RapidFuzz token_set_ratio
+    email_exact_match: 0.20     # Exact match after lowercase & strip
+    phone_exact_match: 0.15     # Exact match after digit normalization
+
+  thresholds:
+    auto_merge: 0.90            # Above 0.90 -> auto-merge into golden record
+    steward_review: 0.70        # Between 0.70 and 0.90 -> send to steward queue
+    distinct: 0.70              # Below 0.70 -> treat as separate distinct entities
+
+survivorship:
+  default_strategy: "most_recent"
+  source_priority:
+    - "CRM_Salesforce"          # Highest trust for customer demographic & contact
+    - "ERP_SAP"                 # Highest trust for billing & postal
+    - "Web_Portal"              # Fallback self-serve channel
+  field_rules:
+    email: "most_recent"
+    phone: "most_recent"
+    full_name: "longest_complete"
+    address: "most_complete"
+    city: "trusted_source"
+    state: "trusted_source"
+    postal_code: "trusted_source"
+
+ai_stewardship:
+  auto_apply_confidence: 0.90   # Auto-apply AI suggestion if confidence >= 0.90
+  min_acceptable_confidence: 0.50
+  max_retries: 2
+  batch_size: 50
+  cache_enabled: true
+  model_name: "gpt-4o-mini"     # Or Azure OpenAI deployment
+  temperature: 0.0
+
+monitoring_alerts:
+  static:
+    min_quality_score: 85.0     # Alert if overall quality score < 85%
+    sla_file_arrival_hour: 9    # 9:00 AM
+  dynamic_anomaly:
+    rolling_window_days: 14
+    z_score_threshold: 3.0      # Flag metric beyond 3 standard deviations
+  deduplication_window_hours: 6

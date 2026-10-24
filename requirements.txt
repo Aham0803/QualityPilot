@@ -1,0 +1,20 @@
+# Core Dependencies for DQ-Steward AI
+pandas>=2.2.0
+numpy>=1.26.0
+pydantic>=2.7.0
+PyYAML>=6.0.0
+sqlalchemy>=2.0.0
+rapidfuzz>=3.8.0
+faker>=24.0.0
+requests>=2.31.0
+scikit-learn>=1.4.0
+plotly>=5.20.0
+streamlit>=1.33.0
+pyarrow>=15.0.0
+
+# Database Driver for PostgreSQL deployments
+psycopg2-binary>=2.9.9
+
+# Testing and Coverage
+pytest>=8.0.0
+pytest-cov>=5.0.0

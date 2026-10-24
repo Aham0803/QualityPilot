@@ -1,0 +1,136 @@
+# Data Quality Rules Configuration (dq_rules)
+# Dimensions: completeness, validity, consistency, uniqueness, timeliness
+rules:
+  # Completeness rules
+  - id: DQ001
+    dimension: completeness
+    field: email
+    check: not_null
+    severity: high
+    description: "Customer email must not be null or empty string"
+
+  - id: DQ002
+    dimension: completeness
+    field: phone
+    check: not_null
+    severity: high
+    description: "Customer primary phone number must be populated"
+
+  - id: DQ003
+    dimension: completeness
+    field: city
+    check: not_null
+    severity: medium
+    description: "Billing or primary residence city must be provided"
+
+  - id: DQ004
+    dimension: completeness
+    field: postal_code
+    check: not_null
+    severity: high
+    description: "Postal / ZIP / PIN code must not be null"
+
+  - id: DQ005
+    dimension: completeness
+    field: full_name
+    check: not_null
+    severity: critical
+    description: "Master entity full name is mandatory"
+
+  # Validity rules
+  - id: DQ006
+    dimension: validity
+    field: email
+    check: regex
+    pattern: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    severity: high
+    description: "Email address format standard RFC-compliant regex validation"
+
+  - id: DQ007
+    dimension: validity
+    field: phone
+    check: regex
+    pattern: '^\+?[0-9]{10,13}$'
+    severity: medium
+    description: "Phone numbers must be normalized digits between 10 and 13 numbers"
+
+  - id: DQ008
+    dimension: validity
+    field: age
+    check: range
+    min_val: 18
+    max_val: 110
+    severity: medium
+    description: "Customer age must be within realistic adult demographic range 18 to 110"
+
+  - id: DQ009
+    dimension: validity
+    field: postal_code
+    check: regex
+    pattern: '^[0-9]{5,6}$'
+    severity: medium
+    description: "Postal code must be valid 5-digit US zip or 6-digit PIN code"
+
+  - id: DQ010
+    dimension: validity
+    field: country_code
+    check: allowed_values
+    values: ["US", "IN", "CA", "GB", "AU", "DE", "FR"]
+    severity: low
+    description: "Country code must match standard ISO 3166-1 alpha-2 list"
+
+  # Consistency rules
+  - id: DQ011
+    dimension: consistency
+    field: birth_date_vs_age
+    check: custom_age_birthdate_consistency
+    severity: high
+    description: "Calculated age from birth_date must match declared age within +/- 1 year"
+
+  - id: DQ012
+    dimension: consistency
+    field: state_city_mapping
+    check: state_city_lookup
+    severity: medium
+    description: "Standard state vs city alignment according to regional dictionary"
+
+  - id: DQ013
+    dimension: consistency
+    field: created_at_vs_updated_at
+    check: date_order
+    start_field: created_at
+    end_field: updated_at
+    severity: high
+    description: "Record creation timestamp must precede or equal record updated_at timestamp"
+
+  # Uniqueness rules
+  - id: DQ014
+    dimension: uniqueness
+    field: customer_id
+    check: unique
+    severity: critical
+    description: "Source specific customer primary key must be unique within source batch"
+
+  - id: DQ015
+    dimension: uniqueness
+    field: national_id
+    check: unique
+    severity: high
+    description: "Tax ID / SSN / National identifier must be globally unique when present"
+
+  # Timeliness rules
+  - id: DQ016
+    dimension: timeliness
+    field: updated_at
+    check: freshness
+    max_days_lag: 365
+    severity: low
+    description: "Record must have been active or refreshed within the past 365 days"
+
+# Dimension weights for composite scoring (sum to 1.0)
+dimension_weights:
+  completeness: 0.25
+  validity: 0.25
+  consistency: 0.20
+  uniqueness: 0.20
+  timeliness: 0.10
